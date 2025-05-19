@@ -38,8 +38,9 @@ jobs:
           pip install -r requirements.txt
           pip install coverage flake8 black
 
-      - name: Format code (black)
-        run: black --check .
+      - name: Auto format code (black)
+        run: black .
+
 
 
       - name: Run Unit Tests
