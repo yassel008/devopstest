@@ -53,17 +53,17 @@ jobs:
       - name: Lint with flake8
         run: flake8 .
 
-      - name: Auto format code (black)
+      - name: Auto format code with black
         run: black .
 
-      - name: Check code style with Black
+      - name: Check code style with black (strict)
         run: black --check .
 
       - name: Run tests with coverage
         run: |
           coverage run manage.py test
           coverage report
-          coverage xml
+          coverage xml -o coverage.xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
@@ -112,8 +112,10 @@ jobs:
         run: |
           mkdir -p ~/.kube
           echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+          chmod 600 ~/.kube/config
 
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f k8s/
-          kubectl rollout status deployment/demo-deployment
+          kubectl rollout status deployment/demo-deployment --timeout=120s
+
