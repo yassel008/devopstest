@@ -9,20 +9,17 @@ class TestUserView(APITestCase):
         user = User(name='Test1', dni='09876543210')
         user.save()
         self.url = reverse("users-list")
-        self.data = {
-            'name': 'Test2',
-            'dni': '09876543211'
-        }
+        self.data = {'name': 'Test2', 'dni': '09876543211'}
 
     def test_post(self):
         response = self.client.post(self.url, self.data, format='json')
-        expected_response = {
+        self.assertEqual(response.status_code, 201)
+        expected_data = {
             "id": 2,
             "name": "Test2",
             "dni": "09876543211"
         }
-        self.assertEqual(response.status_code, 201)
-        self.assertEqual(json.loads(response.content), expected_response)
+        self.assertEqual(json.loads(response.content), expected_data)
         self.assertEqual(User.objects.count(), 2)
 
     def test_get_list(self):
@@ -38,3 +35,5 @@ class TestUserView(APITestCase):
             "dni": "09876543210"
         }
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content), expected_data)
+
