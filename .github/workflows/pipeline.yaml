@@ -53,6 +53,9 @@ jobs:
       - name: Lint with flake8
         run: flake8 .
 
+      - name: Auto format code (black)
+        run: black .
+
       - name: Check code style with Black
         run: black --check .
 
