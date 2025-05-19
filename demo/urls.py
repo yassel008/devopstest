@@ -1,7 +1,7 @@
-# api/urls.py
-from rest_framework import routers
+# demo/urls.py
 from django.urls import path, include
-from .views import UserViewSet
+from rest_framework import routers
+from api.views import UserViewSet  # importa desde 'api', no desde 'demo'
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet, basename='users')
