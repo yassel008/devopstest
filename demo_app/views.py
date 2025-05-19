@@ -1,3 +1,5 @@
 from django.http import JsonResponse
+
+
 def index(request):
-    return JsonResponse({"message": "Hello, DevOps!"})
+    return JsonResponse({"message": "Hola!, Devsu!"})
