@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-devops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-devops
+  template:
+    metadata:
+      labels:
+        app: demo-devops
+    spec:
+      containers:
+        - name: app
+          image: myapp:latest
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /api/
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
