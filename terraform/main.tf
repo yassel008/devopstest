@@ -78,7 +78,7 @@ resource "aws_iam_role_policy_attachment" "eks_nodes_AmazonEKS_CNI_Policy" {
   role       = aws_iam_role.eks_nodes.name
 }
 
-# Red simplificada para pruebas (VPC + Subnets públicas)
+# Red simplificada test (VPC + Subnets publicas)
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 }
