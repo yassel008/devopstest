@@ -1,139 +1,105 @@
-# Demo Devops Python
+# DevOps Demo Project - Django + PostgreSQL en Kubernetes
 
-This is a simple application to be used in the technical test of DevOps.
+Este proyecto es una aplicación Django dockerizada, desplegada en un cluster de Kubernetes local (Docker Desktop o Minikube). Incluye un pipeline CI/CD completo con pruebas, analisis de calidad de código, construcción y despliegue automatizado.
 
-## Getting Started
+## 🚀 Tecnologias utilizadas
+- Python 3.11 + Django
+- PostgreSQL
+- Docker
+- Kubernetes (Docker Desktop o Minikube)
+- GitHub Actions (CI/CD)
+- Horizontal Pod Autoscaler
+- Liveness y Readiness Probes
 
-### Prerequisites
+## 📁 Estructura del proyecto
+.
+├── k8s/
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   └── hpa.yaml
+├── .github/workflows/
+│   └── pipeline.yaml
+├── Dockerfile
+├── requirements.txt
+├── manage.py
+├── demo/
+│   └── ...
+└── README.md
 
-- Python 3.11.3
+## 🐳 Docker
+### Construccion de la imagen local
+docker build -t myapp:latest .
 
-### Installation
+## ☸️ Kubernetes local con Docker Desktop
+### Activar cluster local
+- Docker Desktop:
+  - Activar Kubernetes desde Settings → Kubernetes → Enable
 
-Clone this repo.
+### Desplegar recursos
+kubectl apply -f k8s/
+kubectl get pods,svc,deploy,hpa
 
-```bash
-git clone https://bitbucket.org/devsu/demo-devops-python.git
-```
+### Acceder a la aplicación
+# Si usas NodePort (ej. 30080)
+http://localhost:30080
 
-Install dependencies.
+# Con Minikube (alternativa)
+minikube service demo-devops-service
 
-```bash
-pip install -r requirements.txt
-```
+## ⚙️ CI/CD con GitHub Actions
+Incluye:
+- Linter (flake8)
+- Formateador (black)
+- Pruebas con coverage
+- Subida de cobertura a Codecov
+- Build/push de imagen a DockerHub
+- Despliegue en Kubernetes
 
-Migrate database
+El pipeline se activa al hacer push a main o PR a main.
 
-```bash
-py manage.py makemigrations
-py manage.py migrate
-```
+## 📈 Autoescalado con HPA
+El hpa.yaml escala entre 2 y 5 réplicas según uso de CPU:
+spec:
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 50
 
-### Database
+## 🔍 Observabilidad
+- Liveness y Readiness Probes para asegurar salud del contenedor
 
-The database is generated as a file in the main path when the project is first run, and its name is `db.sqlite3`.
+## 📌 Consideraciones de producción
+- Uso de Ingress con TLS y dominio propio (no incluido por entorno local)
+- Secrets y ConfigMaps para separar configuración
+- Alertas/monitorización con Prometheus + Grafana (fuera de alcance de esta entrega)
 
-Consider giving access permissions to the file for proper functioning.
+## 📊 Diagrama de arquitectura
+[GitHub] → (CI/CD) → [DockerHub] → [Kubernetes (Docker Desktop)]
+                                     ↓
+                             [Deployment + Service + HPA]
+                                     ↓
+                             [Django App + PostgreSQL]
 
-## Usage
+## ✅ Verificación final
+- [x] Dockerfile con buenas prácticas
+- [x] Kubernetes con despliegue, servicio y autoescalado
+- [x] Pipeline funcional y seguro
+- [x] Prolijidad y documentación
 
-To run tests you can use this command.
+## ❗ Requerimientos no cumplidos
+- Infraestructura como código con Terraform en la nube fue descartada por temas técnicos del entorno local.
 
-```bash
-py manage.py test
-```
+## 📬 Contacto
+Yassel Leonardo
 
-To run locally the project you can use this command.
 
-```bash
-py manage.py runserver
-```
 
-Open http://localhost:8000/api/ with your browser to see the result.
 
-### Features
 
-These services can perform,
 
-#### Create User
 
-To create a user, the endpoint **/api/users/** must be consumed with the following parameters:
 
-```bash
-  Method: POST
-```
 
-```json
-{
-    "dni": "dni",
-    "name": "name"
-}
-```
 
-If the response is successful, the service will return an HTTP Status 200 and a message with the following structure:
 
-```json
-{
-    "id": 1,
-    "dni": "dni",
-    "name": "name"
-}
-```
 
-If the response is unsuccessful, we will receive status 400 and the following message:
-
-```json
-{
-    "detail": "error"
-}
-```
-
-#### Get Users
-
-To get all users, the endpoint **/api/users** must be consumed with the following parameters:
-
-```bash
-  Method: GET
-```
-
-If the response is successful, the service will return an HTTP Status 200 and a message with the following structure:
-
-```json
-[
-    {
-        "id": 1,
-        "dni": "dni",
-        "name": "name"
-    }
-]
-```
-
-#### Get User
-
-To get an user, the endpoint **/api/users/<id>** must be consumed with the following parameters:
-
-```bash
-  Method: GET
-```
-
-If the response is successful, the service will return an HTTP Status 200 and a message with the following structure:
-
-```json
-{
-    "id": 1,
-    "dni": "dni",
-    "name": "name"
-}
-```
-
-If the user id does not exist, we will receive status 404 and the following message:
-
-```json
-{
-    "detail": "Not found."
-}
-```
-
-## License
-
-Copyright © 2023 Devsu. All rights reserved.
+   
