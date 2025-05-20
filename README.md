@@ -40,11 +40,8 @@ kubectl apply -f k8s/
 kubectl get pods,svc,deploy,hpa
 
 ### Acceder a la aplicación
-# Si usas NodePort (ej. 30080)
+#  NodePort ( 30080)
 http://localhost:30080
-
-# Con Minikube (alternativa)
-minikube service demo-devops-service
 
 ## ⚙️ CI/CD con GitHub Actions
 Incluye:
@@ -55,19 +52,19 @@ Incluye:
 - Build/push de imagen a DockerHub
 - Despliegue en Kubernetes
 
-El pipeline se activa al hacer push a main o PR a main.
+El pipeline se activa al hacer push a main
 
-## 📈 Autoescalado con HPA
+# 📈 Autoescalado con HPA
 El hpa.yaml escala entre 2 y 5 réplicas según uso de CPU:
 spec:
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 50
 
-## 🔍 Observabilidad
+# 🔍 Observabilidad
 - Liveness y Readiness Probes para asegurar salud del contenedor
 
-## 📌 Consideraciones de producción
+# 📌 Consideraciones de producción
 - Uso de Ingress con TLS y dominio propio (no incluido por entorno local)
 - Secrets y ConfigMaps para separar configuración
 - Alertas/monitorización con Prometheus + Grafana (fuera de alcance de esta entrega)
@@ -79,7 +76,7 @@ spec:
                                      ↓
                              [Django App + PostgreSQL]
 
-## ✅ Verificación final
+# ✅ Verificación final
 - [x] Dockerfile con buenas prácticas
 - [x] Kubernetes con despliegue, servicio y autoescalado
 - [x] Pipeline funcional y seguro
@@ -88,7 +85,7 @@ spec:
 ## ❗ Requerimientos no cumplidos
 - Infraestructura como código con Terraform en la nube fue descartada por temas técnicos del entorno local.
 
-## 📬 Contacto
+## 📬By
 Yassel Leonardo
 
 
