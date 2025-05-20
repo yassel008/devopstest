@@ -104,10 +104,10 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          # Aplica deployment y service
+          #  deployment y service
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
-          # Aplica HPA para autoscaling
+          #  HPA para autoscaling
           kubectl apply -f k8s/hpa.yaml
           # Esperar rollout de deployment
           kubectl rollout status deployment/demo-devops --timeout=120s
