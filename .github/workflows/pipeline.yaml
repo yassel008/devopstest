@@ -86,6 +86,7 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/demo-app:latest
 
   deploy:
+    if: ${{ secrets.KUBECONFIG != '' }}
     runs-on: ubuntu-latest
     needs: docker
     steps:
@@ -102,12 +103,12 @@ jobs:
           echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
           chmod 600 ~/.kube/config
 
+      - name: Test connection to cluster
+        run: kubectl get nodes
+
       - name: Deploy to Kubernetes
         run: |
-          #  deployment y service
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
-          #  HPA para autoscaling
           kubectl apply -f k8s/hpa.yaml
-          # Esperar rollout de deployment
           kubectl rollout status deployment/demo-devops --timeout=120s
