@@ -18,6 +18,24 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
+          env:
+            - name: DB_NAME
+              value: "demo"
+            - name: DB_USER
+              value: "postgres"
+            - name: DB_PASSWORD
+              value: "postgres"
+            - name: DB_HOST
+              value: "db"               # debe coincidir con el nombre del Service de PostgreSQL
+            - name: DB_PORT
+              value: "5432"
+            - name: DJANGO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: django-secret
+                  key: DJANGO_SECRET_KEY
+            - name: DJANGO_SETTINGS_MODULE
+              value: "demo.settings"
           livenessProbe:
             httpGet:
               path: /api/
