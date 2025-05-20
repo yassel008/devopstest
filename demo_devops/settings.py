@@ -1,27 +1,22 @@
 import environ
 from pathlib import Path
 
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env()
-env.read_env(BASE_DIR / '.env')
+env = environ.Env(
+    DEBUG=(bool, False)  # Definir DEBUG con valor por defecto False
+)
 
+# Cargar .env, si no existe no falla
+env_file = BASE_DIR / '.env'
+if env_file.exists():
+    env.read_env(env_file)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('DJANGO_SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
-
-
-# Application definition
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[])
 
 DJANGO_APPS = [
     'django.contrib.admin',
@@ -40,12 +35,7 @@ LOCAL_APPS = [
     'api',
 ]
 
-INSTALLED_APPS = (
-    DJANGO_APPS +
-    THIRD_PARTY_APPS +
-    LOCAL_APPS
-)
-
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -57,9 +47,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 ROOT_URLCONF = 'demo.urls'
-
 
 TEMPLATES = [
     {
@@ -77,23 +65,14 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = 'demo.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / env('DATABASE_NAME'),
+        'NAME': BASE_DIR / env('DATABASE_NAME', default='db.sqlite3'),
     }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -122,10 +101,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -134,14 +109,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-
 STATIC_URL = 'static/'
-
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
