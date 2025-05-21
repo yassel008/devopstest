@@ -46,7 +46,7 @@ Aplica despliegue en Kubernetes (local por ahora)
 
 ##  Docker
 ### Construccion de la imagen local
-docker build -t myapp:latest .
+docker build -t yasselreyes8x/demo-app .
 
 ##  Kubernetes local con Docker Desktop
 ### Activar cluster local
