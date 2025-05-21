@@ -18,43 +18,36 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: demo-secrets
           env:
-            - name: DJANGO_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: demo-secrets
-                  key: DJANGO_SECRET_KEY
             - name: DEBUG
-              value: "False"
+              value: "True"
             - name: ALLOWED_HOSTS
-              value: "localhost,127.0.0.1"
+              value: "*"
             - name: USE_POSTGRES
               value: "True"
             - name: DB_NAME
               value: "demo"
             - name: DB_USER
               value: "user"
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: demo-secrets
-                  key: DB_PASSWORD
             - name: DB_HOST
               value: "postgres-service"
             - name: DB_PORT
               value: "5432"
-          livenessProbe:
-            httpGet:
-              path: /api/
-              port: 8000
-            initialDelaySeconds: 15
-            periodSeconds: 20
-          readinessProbe:
-            httpGet:
-              path: /api/
-              port: 8000
-            initialDelaySeconds: 5
-            periodSeconds: 10
+          #livenessProbe:
+           # httpGet:
+            #  path: /api/
+             # port: 8000
+           # initialDelaySeconds: 15
+            #periodSeconds: 20
+          #readinessProbe:
+           # httpGet:
+            #  path: /api/
+             # port: 8000
+            #initialDelaySeconds: 5
+            #periodSeconds: 10
           resources:
             requests:
               cpu: 100m
@@ -62,4 +55,3 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
-
