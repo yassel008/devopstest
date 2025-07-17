@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devopstest
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/yassel008/devopstest.git'
+    targetRevision: HEAD
+    path: k8s
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: demo-devops
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
