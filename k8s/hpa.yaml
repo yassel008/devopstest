@@ -1,7 +1,8 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: demo-devops
+  name: demo-hpa
+  namespace: demo-devops
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
